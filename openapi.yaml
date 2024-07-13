@@ -1,0 +1,120 @@
+openapi: 3.0.0
+info:
+  title: Telegram Hospital Bot API
+  description: API for Telegram Hospital Bot
+  version: 1.0.0
+servers:
+  - url: http://localhost:8080
+paths:
+  /register:
+    post:
+      summary: Register a new user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                password:
+                  type: string
+      responses:
+        '200':
+          description: User registered successfully
+  /doctors:
+    get:
+      summary: Get list of doctors
+      responses:
+        '200':
+          description: List of doctors
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                    name:
+                      type: string
+                    specialty:
+                      type: string
+  /appointments:
+    post:
+      summary: Book an appointment
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                doctorId:
+                  type: integer
+                date:
+                  type: string
+                  format: date
+                time:
+                  type: string
+      responses:
+        '200':
+          description: Appointment booked successfully
+    get:
+      summary: Get list of user's appointments
+      responses:
+        '200':
+          description: List of appointments
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                    doctorId:
+                      type: integer
+                    date:
+                      type: string
+                      format: date
+                    time:
+                      type: string
+  /appointments/{appointmentId}:
+    put:
+      summary: Reschedule an appointment
+      parameters:
+        - in: path
+          name: appointmentId
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                date:
+                  type: string
+                  format: date
+                time:
+                  type: string
+      responses:
+        '200':
+          description: Appointment rescheduled successfully
+    delete:
+      summary: Cancel an appointment
+      parameters:
+        - in: path
+          name: appointmentId
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Appointment cancelled successfully

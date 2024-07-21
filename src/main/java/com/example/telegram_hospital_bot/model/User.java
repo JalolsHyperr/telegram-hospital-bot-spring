@@ -1,29 +1,38 @@
 package com.example.telegram_hospital_bot.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+
+import java.util.List;
 
 @Entity
 public class User {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(unique = true, nullable = false, name = "telegram_id")
+    private long telegramId;
+
     private String username;
+
     private String name;
-    private String contact_info;
-    private long chat_id;
+
+    @Column(unique = true, nullable = false, name = "chat_id")
+    private long chatId;
+
+    @OneToMany(mappedBy = "user")
+    private List<Appointment> appointments;
 
     public User(
-            String username, String name, String contactInfo, long chatId
+            long telegramId,
+            long chatId,
+            String username,
+            String name
     ) {
+        this.telegramId = telegramId;
         this.username = username;
         this.name = name;
-        this.contact_info = contactInfo;
-        this.chat_id = chatId;
+        this.chatId = chatId;
     }
 
     public User() {
@@ -36,6 +45,14 @@ public class User {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Long getTelegramId() {
+        return telegramId;
+    }
+
+    public void setTelegramId(Long telegramId) {
+        this.telegramId = telegramId;
     }
 
     public String getUsername() {
@@ -54,19 +71,11 @@ public class User {
         this.name = name;
     }
 
-    public String getContactInfo() {
-        return contact_info;
-    }
-
-    public void setContactInfo(String contactInfo) {
-        this.contact_info = contactInfo;
-    }
-
     public long getChatId() {
-        return chat_id;
+        return chatId;
     }
 
     public void setChatId(long chatId) {
-        this.chat_id = chatId;
+        this.chatId = chatId;
     }
 }

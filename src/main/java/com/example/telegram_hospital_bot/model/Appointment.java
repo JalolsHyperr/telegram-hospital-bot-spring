@@ -1,11 +1,10 @@
 package com.example.telegram_hospital_bot.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Column;
-import java.util.Date;
+import jakarta.persistence.*;
+
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.List;
 
 @Entity
 public class Appointment {
@@ -14,14 +13,22 @@ public class Appointment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "user_id")
-    private Long userId;
+    @ManyToOne
+    @JoinColumn(name = "user_id")  // Specifies the foreign key column
+    private User user;
 
-    @Column(name = "doctor_id")
-    private Long doctorId;
+    @ManyToOne
+    @JoinColumn(name = "doctor_id")  // Specifies the foreign key column
+    private Doctor doctor;
 
-    @Column(name = "registered_date")
-    private Date registeredDate;
+    @Column(name = "date")
+    private LocalDate date;
+
+    @Column(name = "hour")
+    private LocalTime hour;
+
+    @OneToMany(mappedBy = "doctor")
+    private List<Appointment> appointments;
 
     // Getters and setters
     public Long getId() {
@@ -32,27 +39,39 @@ public class Appointment {
         this.id = id;
     }
 
-    public Long getUserId() {
-        return userId;
+    public User getUser() {
+        return user;
     }
 
-    public void setUserId(Long userId) {
-        this.userId = userId;
+    public void setUser(User user) {
+        this.user = user;
     }
 
-    public Long getDoctorId() {
-        return doctorId;
+    public Doctor getDoctor() {
+        return doctor;
     }
 
-    public void setDoctorId(Long doctorId) {
-        this.doctorId = doctorId;
+    public void setDoctor(Doctor doctor) {
+        this.doctor = doctor;
     }
 
-    public Date getRegisteredDate() {
-        return registeredDate;
+    public LocalDate getDate() {
+        return date;
     }
 
-    public void setRegisteredDate(Date registeredDate) {
-        this.registeredDate = registeredDate;
+    public void setDate(LocalDate date) {
+        this.date = date;
     }
+
+    public LocalTime getHour() {
+        return hour;
+    }
+
+    public void setHour(LocalTime hour) {
+        this.hour = hour;
+    }
+
+    //public movableDays(){}
+
+    //public movableHours(){}
 }

@@ -5,7 +5,7 @@ import com.example.telegram_hospital_bot.service.AppointmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -17,10 +17,9 @@ public class AppointmentController {
 
     @GetMapping("/byDate")
     public List<Appointment> getAllAppointmentsByDate(
-            @RequestParam("dateFrom") Date dateFrom,
-            @RequestParam("dateTo") Date dateTo
+            @RequestParam("date") LocalDate date
     ) {
-        return appointmentService.getAllAppointmentsByDate(dateFrom, dateTo);
+        return appointmentService.getAllAppointmentsByDate(date);
     }
 
 }

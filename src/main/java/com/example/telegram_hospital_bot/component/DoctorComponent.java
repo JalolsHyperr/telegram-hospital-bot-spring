@@ -1,4 +1,4 @@
-package com.example.telegram_hospital_bot.bot;
+package com.example.telegram_hospital_bot.component;
 
 import com.example.telegram_hospital_bot.model.Doctor;
 import com.example.telegram_hospital_bot.service.DoctorService;
